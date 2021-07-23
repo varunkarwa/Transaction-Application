@@ -6,6 +6,15 @@ Node/Express Js (Server Side): Version 4.17.1\
 MongoDb Atlas to store the data.\
 Project is build using VS Code in Windows 10 OS.
 
+## Setting up the environment
+Before runing the application a couple of commands are needed to be run.
+In the project directory,
+### `npm i`
+
+### `cd client`
+### `npm i`
+Both will download the npm dependancies, otherwise it will give errors.
+
 ## Available Scripts
 In the project directory, you can run:
 
