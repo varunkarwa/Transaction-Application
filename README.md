@@ -20,7 +20,7 @@ You will also see any lint errors in the console.
 
 ### Login Credentials
 Email: varunkarwa484@gmail.com\
-Password: Password012\
+Password: Password012
 
 ## Schemas of the Collections.
 There are three collections, Users, Accounts, Transactions for storing the data.
