@@ -8,16 +8,13 @@ const AccountItem = ({ account, setCurrent, history }) => {
 
     const onDeposit = () => {
         setCurrent(account);
-        if(localStorage.getItem('current')){
-            localStorage.removeItem('current');
-        }  
         localStorage.setItem('current', JSON.stringify(account));
         history.push(`/${_id}/Deposit`)
     }
 
     const onWithdraw = () => {
         setCurrent(account);
-        localStorage.setItem('current', account);
+        localStorage.setItem('current', JSON.stringify(account));
         history.push(`/${_id}/Withdraw`)
     }
 

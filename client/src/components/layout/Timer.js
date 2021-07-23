@@ -3,19 +3,14 @@ import {connect} from 'react-redux';
 import { useState, useEffect } from 'react';
 import {setAlert} from '../../actions/alerts';
 
-const Timer = ({history, setAlert, min, sec}) => {
-    const [ minutes, setMinutes ] = useState(min);
-    const [seconds, setSeconds ] =  useState(sec-2);
+const Timer = ({history, setAlert}) => {
+    const [ minutes, setMinutes ] = useState(5);
+    const [seconds, setSeconds ] =  useState(0);
     const [color, setColor] = useState('Black');
-    
-    localStorage.setItem('min',minutes);
-    localStorage.setItem('sec',seconds);
     useEffect(()=>{
     let myInterval = setInterval(() => {
             if (seconds > 0) {
                 setSeconds(seconds - 1);
-                localStorage.removeItem('sec');
-                localStorage.setItem('sec',seconds);
                 if(minutes===0){
                     setColor(seconds%2===0? 'Red':'Black')
                 }
@@ -24,16 +19,10 @@ const Timer = ({history, setAlert, min, sec}) => {
                 if (minutes === 0) {
                     setAlert('Sorry Timeout!', 'danger');
                     clearInterval(myInterval)
-                    localStorage.removeItem('min');
-                    localStorage.removeItem('sec');
                     history.push('/');
                 } else {
                     setMinutes(minutes - 1);
                     setSeconds(59);
-                    localStorage.removeItem('min');
-                    localStorage.removeItem('sec');
-                    localStorage.setItem('min', minutes);
-                    localStorage.setItem('sec',seconds);
                 }
             } 
         }, 1000)

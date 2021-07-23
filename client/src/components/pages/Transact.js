@@ -1,4 +1,4 @@
-import React,{useContext, useEffect, useState} from 'react';
+import React,{ useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import Timer from '../layout/Timer';
 import { setAlert } from '../../actions/alerts';
@@ -7,16 +7,11 @@ import {updateAccount, clearCurrent} from '../../actions/accounts';
 import {addTransaction} from '../../actions/transactions';
 
 const Transact = ({history, loadUser, setAlert, updateAccount, clearCurrent, addTransaction, match, accounts}) => {
-    var min = localStorage.getItem('min') ? localStorage.getItem('min') : 5;
-    var sec = localStorage.getItem('sec') ? localStorage.getItem('sec') : 0;
     useEffect(() => {
         loadUser();
         // eslint-disable-next-line
     }, []);
-    var {current} = accounts;
-    if(current===null){
-        current = JSON.parse(localStorage.getItem('current'));
-    }
+    const {current} = accounts;
     const [transaction, setTransaction] = useState({
         accountNo: current.accountNo,
         amount: 0,
@@ -40,6 +35,7 @@ const Transact = ({history, loadUser, setAlert, updateAccount, clearCurrent, add
             }, 1000);
         }
     },[account]);
+
     const onSubmit = e => {
         e.preventDefault();
         if(type==='Withdraw' && account.amount<amount){
@@ -50,6 +46,7 @@ const Transact = ({history, loadUser, setAlert, updateAccount, clearCurrent, add
                 var a = account.amount-amount;
             }
             else{
+                // eslint-disable-next-line
                 var a = parseInt(account.amount)+parseInt(amount)
             }
             setAccount({
@@ -58,14 +55,14 @@ const Transact = ({history, loadUser, setAlert, updateAccount, clearCurrent, add
             })
         }    
     }
-
+    
     const clearAll = () => {
         clearCurrent();
     }
 
     return (
         <div style={{'height': 1000}}>
-            <Timer history={history} min={min} sec={sec}/>
+            <Timer history={history}/>
             <form onSubmit={onSubmit} >
                 <h2 className='text-primary'>{type+" "} Money</h2>
                 <h2>Account Number:{" "+current.accountNo}</h2>
@@ -77,7 +74,7 @@ const Transact = ({history, loadUser, setAlert, updateAccount, clearCurrent, add
                     value={amount}
                     onChange={onChange}
                 /></h2></div>
-                <div style={{'display': 'flex', 'justifyContent': 'center', 'margin-left': 'auto', 'margin-right':'auto'}}>
+                <div style={{'display': 'flex', 'justifyContent': 'center', 'marginLeft': 'auto', 'marginRight':'auto'}}>
                     <input 
                         type='submit' 
                         value={type}
@@ -86,7 +83,7 @@ const Transact = ({history, loadUser, setAlert, updateAccount, clearCurrent, add
                     />
                 </div>
                 {current && 
-                    <div style={{'display': 'flex', 'justifyContent': 'center', 'margin-left': 'auto', 'margin-right':'auto'}}>
+                    <div style={{'display': 'flex', 'justifyContent': 'center', 'marginLeft': 'auto', 'marginRight':'auto'}}>
                         <button className='btn btn-primary' onClick={() => {
                             history.push('/')
                             clearAll();
