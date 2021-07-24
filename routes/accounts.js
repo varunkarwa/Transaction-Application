@@ -7,7 +7,7 @@ const User = require('../models/User');
 const Account = require('../models/Accounts');
 
 // @route   GET api/accounts
-// @desc    Get all users contacts
+// @desc    Get all users accounts
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try{
@@ -25,7 +25,7 @@ router.get('/', auth, async (req, res) => {
 router.put('/:id', auth, async (req, res) => {
     const { name, accountNo, amount, type} = req.body;
 
-    //Build contact object
+    //Build account object
     const accountFields = {};
     if (name) accountFields.name = name;
     if (accountNo) accountFields.accountNo = accountNo;

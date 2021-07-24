@@ -13,7 +13,7 @@ const Home = ({history, loadUser}) => {
     }, []);
     
     return (
-        <div style={{'height': '100vh'}} className='grid-2'>
+        <div style={{'height': '1000'}} className='grid-2'>
             <div>
                 <AccountFilter />
                 <Accounts history={history}/>

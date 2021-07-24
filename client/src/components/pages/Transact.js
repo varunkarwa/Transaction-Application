@@ -1,19 +1,21 @@
-import React,{ useEffect, useState} from 'react';
+import React,{ Fragment, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import Timer from '../layout/Timer';
 import { setAlert } from '../../actions/alerts';
 import {loadUser} from '../../actions/auths';
-import {updateAccount, clearCurrent} from '../../actions/accounts';
+import {setCurrent, updateAccount, clearCurrent} from '../../actions/accounts';
 import {addTransaction} from '../../actions/transactions';
 
 const Transact = ({history, loadUser, setAlert, updateAccount, clearCurrent, addTransaction, match, accounts}) => {
     useEffect(() => {
+        if(current===null){setAlert('You Refreshed the Page!','danger');
+        history.push('/');}
         loadUser();
         // eslint-disable-next-line
     }, []);
     const {current} = accounts;
     const [transaction, setTransaction] = useState({
-        accountNo: current.accountNo,
+        accountNo: current !== null ? current.accountNo : 0,
         amount: 0,
         type: match.params.type
     })
@@ -26,7 +28,7 @@ const Transact = ({history, loadUser, setAlert, updateAccount, clearCurrent, add
 
     //eslint-disable-next-line
     useEffect(() => {
-        if(account.amount!==current.amount){
+        if(current!==null && account.amount!==current.amount){
             updateAccount(account);
             addTransaction(transaction);
             setTimeout(() => {
@@ -61,13 +63,15 @@ const Transact = ({history, loadUser, setAlert, updateAccount, clearCurrent, add
     }
 
     return (
+        <Fragment>
+        {current &&
         <div style={{'height': 1000}}>
             <Timer history={history}/>
             <form onSubmit={onSubmit} >
                 <h2 className='text-primary'>{type+" "} Money</h2>
                 <h2>Account Number:{" "+current.accountNo}</h2>
                 <h2>Ammount Left in Account: {" "+current.amount}</h2>
-                <div style={{'margin-left': 'auto', 'margin-right':'auto'}}><h2>Amount: <input 
+                <div style={{'marginLeft': 'auto', 'marginRight':'auto'}}><h2>Amount: <input 
                     type='number'
                     placeholder='Amount'
                     name='amount'
@@ -81,21 +85,21 @@ const Transact = ({history, loadUser, setAlert, updateAccount, clearCurrent, add
                         onClick={onSubmit}
                         className='btn btn-primary'
                     />
-                </div>
-                {current && 
+                </div> 
                     <div style={{'display': 'flex', 'justifyContent': 'center', 'marginLeft': 'auto', 'marginRight':'auto'}}>
                         <button className='btn btn-primary' onClick={() => {
                             history.push('/')
                             clearAll();
                         }}>Select Another Account</button>
                     </div>
-                }
             </form>
         </div>
+        }
+        </Fragment>
     )
 }
 
 const mapStateToProps = state => ({
     accounts: state.accounts
 })
-export default connect(mapStateToProps,{setAlert, loadUser, updateAccount, clearCurrent, addTransaction})(Transact);
+export default connect(mapStateToProps,{setAlert, setCurrent, loadUser, updateAccount, clearCurrent, addTransaction})(Transact);
